@@ -1,0 +1,118 @@
+$ sudo yum update
+
+## Found Mysql version as seen below, mysql has forked to open source mariadb for Linux AMI EC2
+$ sudo yum search mysql
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+============================================================================================================ N/S matched: mysql =============================================================================================================
+mariadb.x86_64 : A community developed branch of MySQL
+
+#Run the following commands to start the installation
+$ sudo yum install mariadb.x86_64
+$ sudo yum install -y mariadb-server
+$ sudo systemctl enable mariadb
+$ sudo mysql_secure_installation
+
+#credentials are here
+username: root
+Password: test
+
+
+##Mongodb installation
+
+##Create a repo file
+$ Sudo nano /etc/yum.repos.d/mongodb-org-4.4.repo
+##Copy and paste the following into the file: !! copy and paste doesn't preserve line breaks in Nano GUI
+
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+
+##to see what method to launch MongoDB run the following
+$ ps --no-headers -o comm 1
+
+## I received systemmd so we commence with the following lines of code to start the database
+$ sudo systemctl start mongod
+
+##Check the database using this command
+$ sudo systemctl status mongod
+
+#bind proper IP
+$ Sudo nano /etc/mongod.conf
+##find bindIp; change localhost IP 127.0.0.1 to 0.0.0.0 to open to world
+
+
+##Lastly, Make sure both; MongoDB and MariaDB, start when the system reboots; use the following
+$ sudo systemctl restart mongod
+$ sudo systemctl enable mariadb 
+
+
+#Connection to Mongodb
+## Open port 27017 in the Security group for my local IP
+## Using MongoDB compass use the following :  mongodb://[IPADDRES]S:27017/cat /etc/os-release
+
+#install Python 3.7
+$ Sudo install python3.7
+
+#check version
+$ python3 --version
+# I have Python 3.7.9
+
+##INSTALL PIP
+$ curl -O https://bootstrap.pypa.io/get-pip.py
+$ python3 get-pip.py --user
+
+#Install Mysql Connector for Sql server
+$ sudo pip install mysql-connector
+
+#open a python script, paste in
+
+{
+import mysql.connector
+
+cnx = mysql.connector.connect(user='root', password='test', host='127.0.0.1', database='test')
+cnx.close()
+}
+
+#Exit and run script to test connection: SUCCESS!!
+
+#Create Table
+{
+import mysql.connector
+
+cnx = mysql.connector.connect(user='root', password='test', host='127.0.0.1', database='test')
+
+mycursor= cnx.cursor()
+mycursor.execute("CREATE TABLE users (ID VARCHAR(255), Name VARCHAR(255), Department VARCHAR(255), Location VARCHAR(255), Hiredate VARCHAR(255))")
+
+cnx.close()
+}
+
+#Add Entries into Table
+{
+import mysql.connector
+
+cnx = mysql.connector.connect(user='root', password='test', host='127.0.0.1', database='test')
+mycursor = cnx.cursor()
+
+sql = "INSERT INTO users (ID, Name, Department, Location, Hiredate) VALUES (%d, %s, %s, %s, %d)"
+val = [('0001', 'George Michaels', 'Maintenance', 'Warehouse 5', '01012007'),
+  ('0002', 'Michael Jackson', 'Sales', 'Warehouse 5', '04122008'),
+  ('0003', 'Phil Collins', 'IT', 'Warehouse 2', '11012009'),
+  ('0004', 'Matthew Bellamy', 'IT', 'Warehouse 3', '06082011'),
+  ('0005', 'Till Lindermann', 'Security', 'Warehouse 1', '05012012'),
+  ('0006', 'Weird Al Yankovich', 'Sales', 'Warehouse 4', '07122013'),
+  ('0007', 'Max Martin', 'Maintenance', 'Warehouse 4', '04142015')
+]
+
+mycursor.executemany(sql, val)
+
+cnx.commit()
+
+print(mycursor.rowcount, "was inserted.")
+}
+
+
+
