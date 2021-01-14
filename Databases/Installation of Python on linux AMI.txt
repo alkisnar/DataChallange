@@ -1,0 +1,21 @@
+#install Python 3.7
+$ Sudo install python3.7
+
+#check version
+$ python3 --version
+# I have Python 3.7.9
+
+##INSTALL PIP
+$ curl -O https://bootstrap.pypa.io/get-pip.py
+$ python3 get-pip.py --user
+
+#Install Mysql Connector for Sql server
+$ sudo pip3 install mysql-connector
+
+#run script to test connection
+{
+import mysql.connector
+
+cnx = mysql.connector.connect(user='root', password='test', host='127.0.0.1', database='test')
+cnx.close()
+}

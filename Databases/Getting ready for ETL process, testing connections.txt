@@ -1,0 +1,36 @@
+#Getting ready for ETL, Install Pymongo, install pymysql
+  $ sudo pip3 install pymongo
+  $ sudo pip3 install pymsql
+  $ sudo pip3 install pandas
+
+
+#create simple python script to test connection MONGODB TEST
+  {
+  from pymongo import MongoClient
+
+  # pprint library is used to make the output look more pretty
+  from pprint import pprint
+
+  # connect to MongoDB,
+  client = MongoClient('mongodb://localhost:27017')
+  db=client.admin
+
+  # Issue the serverStatus command and print the results
+  serverStatusResult=db.command("serverStatus")
+  pprint(serverStatusResult)
+  }
+
+#create simple python script to test connection MYSQL TEST
+  {
+  import pymysql
+
+  # Connect to the database.
+  connection = pymysql.connect(host='localhost',
+                              user='root',
+                              password='test',
+                              db='test',
+                              charset='utf8mb4',
+                              cursorclass=pymysql.cursors.DictCursor)
+
+  print ("connect successful!!")
+  }

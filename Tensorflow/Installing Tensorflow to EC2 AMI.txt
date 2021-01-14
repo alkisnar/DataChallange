@@ -1,0 +1,48 @@
+Launch AMI: Deep Learning AMI (Amazon Linux 2) Version 38.0
+$ sudo yum update
+
+#I see an example folder, I try to run the program and get errors
+ModuleNotFoundError: No module named 'keras'
+Also tensorflow is missing
+
+#Install Keras and tensorflow, tensorflow shows a memory error! I run the following
+$pip3 install --no-cache-dir tensorflow
+$pip3 install keras
+
+#Check the Tensorflow version, run script
+    {
+    import tensorflow as tf
+    print(tf.__version__)
+    }
+
+#Attempt to run example inferencing model: Receive error!
+    [root@ip-10-0-0-229 keras]# python3 cifar10_resnet.py
+    2021-01-14 17:34:18.423066: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+    Downloading data from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+    170500096/170498071 [==============================] - 4s 0us/step
+    Traceback (most recent call last):
+    File "cifar10_resnet.py", line 72, in <module>
+        x_train = x_train.astype('float32') / 255
+    !!!!!!MemoryError: Unable to allocate 586. MiB for an array with shape (50000, 32, 32, 3) and data type float32!!!!!
+    [root@ip-10-0-0-229 keras]#
+
+#We need a bigger instance! upgrade to t2 medium with 4GB RAM
+
+#Running the example program I see the epoch was set to 200!, I will use the simple exmaple I have seen online and build it myself
+Epoch 1/200<--------- 
+Learning rate:  0.001
+ 197/1563 [==>...........................] - ETA: 6:18 - loss: 2.3908 - accuracy: 0.2446            
+
+
+#My tensorflow script
+
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+mnist = tf.keras.datasets.mnist
+(x_train, y_train), (x_text, y_test) = mnist.load_data() #data of hand written numbers
+
+plt.imshow(x_train[0])
+plt.show()
+
+##I NEED TO SEE THE PLOT!, we will continue this on windows

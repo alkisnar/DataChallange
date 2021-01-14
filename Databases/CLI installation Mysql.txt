@@ -1,0 +1,15 @@
+$ sudo yum update
+
+## Found Mysql version as seen below, mysql has forked to open source mariadb for Linux AMI EC2
+$ sudo yum search mysql
+Found: mariadb.x86_64 : A community developed branch of MySQL
+
+#Run the following commands to start the installation
+$ sudo yum install mariadb.x86_64
+$ sudo yum install -y mariadb-server
+$ sudo systemctl enable mariadb
+$ sudo mysql_secure_installation
+
+#credentials are here
+username: root
+Password: test

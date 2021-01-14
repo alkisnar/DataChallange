@@ -1,0 +1,21 @@
+#I want to be able to see a plot, this CLI method wont show me any examples. we will revert to using a Jupyter notebook on my own PC
+
+Running Python 3.8.6 64bit 
+1. Go to scripts folder for python: ~\AppData\Local\Programs\Python\Python38\Scripts
+2. Open CMD here, and run the following
+    pip install Jupyter
+    pip install keras
+    pip install tensorflow
+    pip install matplotlib
+       
+3. Run the Jupyter server, 
+    > jupyter notebook
+    A Browser opens, click new and select Python3
+
+
+#Check version using this simple script
+{
+import tensorflow as tf
+tf.__version__
+}
+#Output: '2.4.0'
